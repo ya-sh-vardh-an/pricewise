@@ -80,7 +80,7 @@ const transporter = nodemailer.createTransport({
     user: 'pricetracker4u@outlook.com',
     pass: process.env.EMAIL_PASSWORD,
   },
-  maxConnection: 1,
+  maxConnections: 1,
 })
 
 export const sendEmail = async (emailContent: EmailContent, sendTo: Array<string>) => {
