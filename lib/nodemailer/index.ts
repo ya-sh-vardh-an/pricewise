@@ -75,7 +75,7 @@ export const generateEmailBody = (product: EmailProductInfo, type: NotificationT
 const transporter = nodemailer.createTransport({
   pool: true,
   service: 'hotmail',
-  port: '2525',
+  port: 2525,
   auth: {
     user: 'pricetracker4u@outlook.com',
     pass: process.env.EMAIL_PASSWORD,
