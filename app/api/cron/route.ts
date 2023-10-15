@@ -14,7 +14,7 @@ const Notification = {
 // not usable currently!
 const THRESHOLD_PERCENTAGE = 40;
 
-export async function GEt() {
+export async function GET() {
   try {
     connectToDB();
 
