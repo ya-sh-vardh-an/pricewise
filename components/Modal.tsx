@@ -19,7 +19,7 @@ const Modal = ({ productId }: Props) => {
 
     try {
       await addUserEmailToProduct(productId, email);
-      // console.log('Submit working')
+      console.log('Submit working')
     } catch (error) {
       console.error("Error during submission of email: ", error);
     }
