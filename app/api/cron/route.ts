@@ -7,9 +7,9 @@ import { Data } from "@/types";
 import { NextResponse } from "next/server";
 import { Resend } from 'resend';
 
-export const maxDuration = 10;
+export const runtime = 'edge'; // 'nodejs' is the default
+export const preferredRegion = 'iad1'; // only execute this function on iad1
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 const Notification = {
   WELCOME: 'WELCOME',
