@@ -5,6 +5,7 @@ import { scrapeAmazonProduct } from "@/lib/scrapper";
 import { getAveragePrice, getEmailNotifType, getHighestPrice, getLowestPrice } from "@/lib/utils";
 import { Data } from "@/types";
 import { NextResponse } from "next/server";
+import { Resend } from 'resend';
 
 export const maxDuration = 10;
 export const dynamic = 'force-dynamic';
@@ -55,7 +56,7 @@ export async function GET() {
 
         // 2. CHECK EACH PRODUCT STATUS AND EMAIL PROPERLY
         const emailNotifType = getEmailNotifType(scrapedProduct, currentProduct);
-
+        console.log("here its working");
         if (emailNotifType && newProduct.users.length > 0) {
           const productInfo = {
             title: newProduct.title, 
@@ -64,8 +65,21 @@ export async function GET() {
 
           const emailContent = generateEmailBody(productInfo, emailNotifType);
           const userEmails = newProduct.users.map((user: any) => user.email);
-
-          await sendEmail(emailContent, userEmails);
+          
+          try {
+            console.log("email sent to: ", userEmails);
+            const resend = new Resend('re_7oUmCha2_BteZddUtA21E5KBXTYRo6LFR');
+  
+            resend.emails.send({
+              from: 'onboarding@resend.dev',
+              to: userEmails,
+              subject: emailContent.subject,
+              html: emailContent.body,
+            });
+          } catch (error) {
+            throw new Error(`Failed to send email with resend: ${error}`);
+          }
+          // await sendEmail(emailContent, userEmails);
         }
 
         return newProduct;
