@@ -1,3 +1,8 @@
+// 'use server'
+// export const runtime = 'edge'; // 'nodejs' is the default
+// export const preferredRegion = 'iad1'; // only execute this function on iad1
+export const dynamic = 'force-dynamic';
+
 import Product from "@/lib/models/product.model";
 import { connectToDB } from "@/lib/mongoose";
 import { generateEmailBody, sendEmail } from "@/lib/nodemailer";
@@ -7,9 +12,6 @@ import { Data } from "@/types";
 import { NextResponse } from "next/server";
 import { Resend } from 'resend';
 
-export const runtime = 'edge'; // 'nodejs' is the default
-export const preferredRegion = 'iad1'; // only execute this function on iad1
-export const dynamic = 'force-dynamic';
 
 const Notification = {
   WELCOME: 'WELCOME',
@@ -20,7 +22,7 @@ const Notification = {
 // not usable currently!
 const THRESHOLD_PERCENTAGE = 40;
 
-export async function GET() {
+async function connectAndSend() {
   try {
     connectToDB();
 
@@ -86,10 +88,17 @@ export async function GET() {
       })
     )
     
-    return NextResponse.json({
-      message: 'OK', data: updatedProducts
-    })
+    // return NextResponse.json({
+    //   message: 'OK', data: updatedProducts
+    // })
   } catch (error) {
     throw new Error(`Error in GET: ${error}`);
   }
+}
+
+export async function GET() {
+  connectAndSend();
+  return NextResponse.json({
+    message: 'OK', data: "Scraping initiated" 
+  })
 }
